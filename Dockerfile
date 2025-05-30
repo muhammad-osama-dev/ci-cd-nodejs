@@ -6,7 +6,7 @@ COPY . .
 
 RUN npm install newrelic
 
-COPY ./node_modules/newrelic/newrelic.js .
+RUN cp ./node_modules/newrelic/newrelic.js .
 
 RUN npm install
 
