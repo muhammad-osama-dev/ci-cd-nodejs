@@ -3,7 +3,8 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - feature/new-relic
+      - main
+      - feature/*
 
 jobs:
   lint:
