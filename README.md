@@ -153,11 +153,7 @@ Following this documentaion https://docs.newrelic.com/docs/apm/agents/nodejs-age
 #### 2. Copy License and save it as secret variable
     Go to your GitHub repository → Settings → Secrets and Variables → Actions → Add New Repository Secret:
     - Add secret `NEW_RELIC_LICENSE_KEY`  
-#### 3. Edit the pipeline to create a new relic secret from ${{ secrets.NEW_RELIC_LICENSE_KEY }} and apply it 
-#### 4. After deplyment the app should appear on the dashboard on new relic like this
-![Screenshot from 2025-05-30 23-19-59](https://github.com/user-attachments/assets/dab06ff5-9a0b-4162-ba39-9eff0983b988)
-
-
+#### 3. Edit the Dockerfile to install the new relic agent 
 ```bash
 FROM node:18
 
@@ -175,6 +171,12 @@ EXPOSE 3000
 
 CMD ["node", "-r", "newrelic", "index.js"]
 ```
+#### 4. Edit the pipeline to create a new relic secret from ${{ secrets.NEW_RELIC_LICENSE_KEY }} and apply it 
+#### 4. After deplyment the app should appear on the dashboard on new relic like this
+![Screenshot from 2025-05-30 23-19-59](https://github.com/user-attachments/assets/dab06ff5-9a0b-4162-ba39-9eff0983b988)
+
+
+
 
 ## 📋 Assumptions
 
