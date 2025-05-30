@@ -83,6 +83,10 @@ jobs:
           kubectl config current-context
           kubectl get nodes
 
+      - name: Update image tag in manifests
+        run: |
+          sed -i "s|\(image:.*${{ env.IMAGE_NAME }}:\)[^[:space:]]*|\1${{ env.SHORT_COMMIT_SHA }}|g" k8s/deployment.yaml
+    
       - name: Deploy to GKE
         run: |
           kubectl apply -f ./k8s/
