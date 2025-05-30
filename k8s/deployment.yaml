@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: hello-node
-        image: us-east1-docker.pkg.dev/nawy-task/private-vm-repo/nodeapp:latest
+        image: us-east1-docker.pkg.dev/task-nawy/private-vm-repo/my-nodejs-app:9f61b79
         ports:
         - name: http
           containerPort: 3000
