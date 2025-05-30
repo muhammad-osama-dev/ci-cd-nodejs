@@ -93,8 +93,8 @@ jobs:
           REGION: ${{ vars.REGION }}
           PROJECT_ID: ${{ vars.PROJECT_ID }}
           REPOSITORY: ${{ vars.REPOSITORY }}
-          IMAGE_NAME: ${{ env.IMAGE_NAME }}
-          SHORT_COMMIT_SHA: ${{ env.SHORT_COMMIT_SHA }}
+          IMAGE_NAME: my-nodejs-app
+          SHORT_COMMIT_SHA: ${GITHUB_SHA::7}
         run: |
           cd k8s
           /home/github-runner/kustomize edit set image "${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}=${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}:${SHORT_COMMIT_SHA}"
