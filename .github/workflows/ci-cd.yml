@@ -91,8 +91,11 @@ jobs:
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
           IMAGE_TAG: ${{ env.SHORT_COMMIT_SHA }}
         run: |
-          sed -i "s|\(image: *${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}:\)[^[:space:]]*|\1${IMAGE_TAG}|g" k8s/deployment.yaml
-          cat k8s/deployment.yaml
+          echo "Before replacement:"
+          grep 'image:' k8s/deployment.yaml
+          sed -i "s|image: .*/${IMAGE_NAME}:[^[:space:]]*|image: ${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}|g" k8s/deployment.yaml
+          echo "After replacement:"
+          grep 'image:' k8s/deployment.yaml
 
     
       - name: Deploy to GKE
