@@ -87,7 +87,7 @@ Infrastructure is deployed using Terraform. See the [infrastructure repo](https:
 
 ### 1. Fork the Repo
 
-git clone https://github.com/your-username/ci-cd-nodejs.git
+git clone https://github.com/muhammad-osama-dev/ci-cd-nodejs.git
 cd ci-cd-nodejs
 
 ---
