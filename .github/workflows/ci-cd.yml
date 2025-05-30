@@ -104,13 +104,13 @@ jobs:
           /home/github-runner/kustomize edit set image "${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}=${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}:${{ env.SHORT_COMMIT_SHA }}"
            
 
-          - name: Create New Relic Secret in GKE
-          run: |
-            kubectl create secret generic newrelic-agent-secret \
-              --from-literal=NEW_RELIC_LICENSE_KEY=${{ secrets.NEW_RELIC_LICENSE_KEY }} \
-              --dry-run=client -o yaml | kubectl apply -f - -n development 
-          env:
-            NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
+      - name: Create New Relic Secret in GKE
+        run: |
+          kubectl create secret generic newrelic-agent-secret \
+            --from-literal=NEW_RELIC_LICENSE_KEY=${{ secrets.NEW_RELIC_LICENSE_KEY }} \
+            --dry-run=client -o yaml | kubectl apply -f - -n development 
+        env:
+          NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
           
       - name: Deploy to GKE
         run: |
