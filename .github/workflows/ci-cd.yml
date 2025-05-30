@@ -30,16 +30,20 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: my-nodejs-app
-      COMMIT_SHA: ${{ github.sha }}
+      SHORT_COMMIT_SHA: ${{ github.sha[:7] }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+      
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: ${{ vars.PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
 
       - name: Configure Docker for Artifact Registry
         run: |
@@ -47,10 +51,10 @@ jobs:
 
       - name: Build Docker image with commit SHA tag
         run: |
-          docker build -t ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/${{ env.IMAGE_NAME }}:latest .
+          docker build -t ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.SHORT_COMMIT_SHA }} .
 
       - name: Push Docker image with commit SHA tag
         run: |
-          docker push ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/${{ env.IMAGE_NAME }}:latest
+          docker push ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.SHORT_COMMIT_SHA }}
 
 
