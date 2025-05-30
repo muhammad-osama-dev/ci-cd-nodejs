@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-node
+  namespace: development
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-node
+  template:
+    metadata:
+      labels:
+        app: hello-node
+    spec:
+      containers:
+      - name: hello-node
+        image: us-east1-docker.pkg.dev/nawy-task/private-vm-repo/nodeapp:latest
+        ports:
+        - name: http
+          containerPort: 3000
+        resources:
+          limits:
+            cpu: 200m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
