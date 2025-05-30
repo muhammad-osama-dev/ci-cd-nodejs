@@ -69,6 +69,20 @@ jobs:
         run: |
           whoami
           kubectl version --client
-          kubectl config view
       
+      - name: Authenticate to GKE Cluster
+        run: |
+          gcloud container clusters get-credentials ${{ vars.CLUSTER_NAME }} \
+            --zone ${{ vars.GKE_ZONE }} \
+            --project ${{ vars.PROJECT_ID }}
+      
+      - name: check kubeconfig
+        run: |
+          kubectl config current-context
+          kubectl get nodes
+
+      - name: Deploy to GKE
+        run: |
+          kubectl apply -f k8s
+          
   
