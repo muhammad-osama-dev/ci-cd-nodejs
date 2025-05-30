@@ -9,6 +9,9 @@ jobs:
   lint:
     name: Lint Code
     runs-on: ubuntu-latest
+    env:
+      NEW_RELIC_APP_NAME: my-nodejs-app
+      NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -17,6 +20,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+
+      - name: install new-relic
+        run: npm install newrelic
+       
+      - name: copy new-relic.js to root directory
+        run: |
+          cp node_modules/newrelic/newrelic.js .
+          echo "New Relic configuration copied successfully."
 
       - name: Install dependencies
         run: npm install
