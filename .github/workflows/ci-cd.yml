@@ -91,7 +91,7 @@ jobs:
       - name: Set image tag using Kustomize
         run: |
           cd k8s
-          ./home/github-runner/kustomize edit set image ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/${{ env.IMAGE_NAME }}=${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.SHORT_COMMIT_SHA }}
+          /home/github-runner/kustomize edit set image ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/${{ env.IMAGE_NAME }}=${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.SHORT_COMMIT_SHA }}
          
       - name: Deploy to GKE
         run: |
