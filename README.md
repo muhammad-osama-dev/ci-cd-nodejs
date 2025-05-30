@@ -109,7 +109,7 @@ Update the repository secrets or environment variables under GitHub repository â
 
 ### 3. Deploy the Infrastructure
 
-follow steps here: [infrastructure repo](https://github.com/muhammad-osama-dev/gcp-nodejs-mongodb-deployment):
+follow steps here: [infrastructure repo](https://github.com/muhammad-osama-dev/gcp-nodejs-mongodb-deployment)
 
 ---
 
