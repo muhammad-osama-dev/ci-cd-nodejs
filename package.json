@@ -18,5 +18,8 @@
       "url": "https://github.com/johnpapa/node-hello/issues"
     },
     "homepage": "https://github.com/johnpapa/node-hello#readme"
+    "devDependencies": {
+        "eslint": "^9.27.0"
+    }
   }
   
