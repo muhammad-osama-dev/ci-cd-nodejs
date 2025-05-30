@@ -90,5 +90,20 @@ jobs:
       - name: Deploy to GKE
         run: |
           kubectl apply -f ./k8s/
+
+      - name: Wait for External IP of the service
+        run: |
+          echo "Waiting for External IP of service drage..."
+          for i in {1..36}; do
+            IP=$(kubectl get svc hello-node -n development -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+            if [ -n "$IP" ]; then
+              echo "External IP found: $IP"
+              exit 0
+            fi
+            echo "No IP yet, retrying in 5 seconds..."
+            sleep 5
+          done
+          echo "Timed out waiting for External IP"
+          exit 1
           
   
