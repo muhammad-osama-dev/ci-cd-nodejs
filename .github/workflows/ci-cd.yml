@@ -74,9 +74,10 @@ jobs:
         run: |
           gcloud container clusters get-credentials ${{ vars.CLUSTER_NAME }} \
             --zone ${{ vars.GKE_ZONE }} \
-            --project ${{ vars.PROJECT_ID }}
+            --project ${{ vars.PROJECT_ID }} \
+            --internal-ip
           kubectl get nodes
-          
+
       - name: check kubeconfig
         run: |
           kubectl config current-context
