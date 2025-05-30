@@ -98,9 +98,8 @@ jobs:
           REPOSITORY: ${{ vars.REPOSITORY }}
         run: |
           cd k8s
-          /home/github-runner/kustomize edit set image "${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}=${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}:${SHORT_COMMIT_SHA}"
+          /home/github-runner/kustomize edit set image "${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}=${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}:${{ env.SHORT_COMMIT_SHA }}"
            
-
       - name: Deploy to GKE
         run: |
           kubectl apply -k ./k8s
