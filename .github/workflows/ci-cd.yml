@@ -83,24 +83,19 @@ jobs:
           kubectl config current-context
           kubectl get nodes
 
-      - name: Update image tag in manifests
-        env:
-          REGION: ${{ vars.REGION }}
-          PROJECT_ID: ${{ vars.PROJECT_ID }}
-          REPOSITORY: ${{ vars.REPOSITORY }}
-          IMAGE_NAME: ${{ env.IMAGE_NAME }}
-          IMAGE_TAG: ${{ env.SHORT_COMMIT_SHA }}
+      - name: Install kustomize
         run: |
-          echo "Before replacement:"
-          grep 'image:' k8s/deployment.yaml
-          sed -i "s|image: .*/${IMAGE_NAME}:[^[:space:]]*|image: ${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}:${IMAGE_TAG}|g" k8s/deployment.yaml
-          echo "After replacement:"
-          grep 'image:' k8s/deployment.yaml
-
-    
+          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+          mv kustomize /home/github-runner
+      
+      - name: Set image tag using Kustomize
+        run: |
+          cd k8s
+          ./home/github-runner/kustomize edit set image ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/${{ env.IMAGE_NAME }}=${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/${{ vars.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.SHORT_COMMIT_SHA }}
+         
       - name: Deploy to GKE
         run: |
-          kubectl apply -f ./k8s/
+          kubectl apply -k ./k8s
 
       - name: Wait for External IP of the service
         run: |

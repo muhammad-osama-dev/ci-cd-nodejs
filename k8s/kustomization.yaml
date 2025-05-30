@@ -1,0 +1,8 @@
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml
+
+images:
+  - name: us-east1-docker.pkg.dev/task-nawy/private-vm-repo/my-nodejs-app
+    newTag: latest  # placeholder
