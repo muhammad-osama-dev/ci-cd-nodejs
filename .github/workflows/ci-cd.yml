@@ -26,8 +26,9 @@ jobs:
        
       - name: copy new-relic.js to root directory
         run: |
-          cp node_modules/newrelic/newrelic.js .
+          cp ./node_modules/newrelic/newrelic.js .
           echo "New Relic configuration copied successfully."
+          ls -ltr
 
       - name: Install dependencies
         run: npm install
