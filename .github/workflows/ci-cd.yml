@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NEW_RELIC_APP_NAME: my-nodejs-app
-      NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -20,15 +19,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-
-      - name: install new-relic
-        run: npm install newrelic
-       
-      - name: copy new-relic.js to root directory
-        run: |
-          cp ./node_modules/newrelic/newrelic.js .
-          echo "New Relic configuration copied successfully."
-          ls -ltr
 
       - name: Install dependencies
         run: npm install
@@ -76,6 +66,7 @@ jobs:
     env:
       IMAGE_NAME: my-nodejs-app
       SHORT_COMMIT_SHA: ${GITHUB_SHA::7}
+      NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -112,6 +103,15 @@ jobs:
           cd k8s
           /home/github-runner/kustomize edit set image "${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}=${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}:${{ env.SHORT_COMMIT_SHA }}"
            
+
+          - name: Create New Relic Secret in GKE
+          run: |
+            kubectl create secret generic newrelic-agent-secret \
+              --from-literal=NEW_RELIC_LICENSE_KEY=${{ secrets.NEW_RELIC_LICENSE_KEY }} \
+              --dry-run=client -o yaml | kubectl apply -f - -n development 
+          env:
+            NEW_RELIC_LICENSE_KEY: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
+          
       - name: Deploy to GKE
         run: |
           kubectl apply -k ./k8s

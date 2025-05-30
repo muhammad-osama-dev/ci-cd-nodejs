@@ -27,3 +27,11 @@ spec:
           requests:
             cpu: 100m
             memory: 128Mi
+        env:
+        - name: NEW_RELIC_APP_NAME
+          value: "my-nodejs-app" 
+        - name: NEW_RELIC_LICENSE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: newrelic-agent-secret 
+              key: NEW_RELIC_LICENSE_KEY 
